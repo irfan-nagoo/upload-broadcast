@@ -17,10 +17,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from upload import views
-from upload.models import Artifact
-from upload.repository.artifact_repository import ArtifactRepository
-from upload.service.artifact_service import ArtifactService
+from apps.upload import views
+from apps.upload.models import Artifact
+from apps.upload.repository.artifact_repository import ArtifactRepository
+from apps.upload.service.artifact_service import ArtifactService
 
 # init
 artifact_repo = ArtifactRepository(Artifact.objects)

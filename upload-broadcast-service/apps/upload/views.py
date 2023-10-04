@@ -1,6 +1,6 @@
 from rest_framework.views import APIView
 
-from upload.service.artifact_service import ArtifactService
+from apps.upload.service.artifact_service import ArtifactService
 
 
 # Create your views here.
@@ -11,10 +11,10 @@ class ArtifactAPIView(APIView):
     def __int__(self, artifact_service):
         self.artifact_service = artifact_service
 
-    def post(self, request):
+    def post(self, request, pk):
         return self.artifact_service.save_artifact(request.data)
 
-    def get(self, request, pk):
+    def get(self, request, pk=1):
         return self.artifact_service.get_artifact(pk)
 
     def put(self, request, pk):

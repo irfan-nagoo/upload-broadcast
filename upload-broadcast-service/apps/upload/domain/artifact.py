@@ -1,4 +1,4 @@
-from upload.models import Artifact as ArtifactModel
+from apps.upload.models import Artifact as ArtifactModel
 
 
 # Create your models here.
