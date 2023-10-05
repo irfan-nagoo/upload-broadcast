@@ -36,7 +36,7 @@ class ArtifactService:
             raise ValidationError(VALIDATION_FAILED_MSG, HTTPStatus.BAD_REQUEST.phrase)
 
     def update_artifact(self, data, pk):
-        logger.info("Starting get_artifact with id[%d]", pk)
+        logger.info("Starting update_artifact with id[%d]", pk)
         artifact = self.artifact_repo.get_artifact(pk)
         serializer = ArtifactSerializer(artifact, data=data)
         if serializer.is_valid(raise_exception=True):
@@ -47,7 +47,7 @@ class ArtifactService:
             raise ValidationError(VALIDATION_FAILED_MSG, HTTPStatus.BAD_REQUEST.phrase)
 
     def delete_artifact(self, pk):
-        logger.info("Starting get_artifact with id[%d]", pk)
+        logger.info("Starting delete_artifact with id[%d]", pk)
         artifact = self.artifact_repo.get_artifact(pk)
         self.artifact_repo.delete_artifact(artifact)
         return self.build_success_response(HTTPStatus.OK.phrase, PROCESSED_SUCCESS_MSG)

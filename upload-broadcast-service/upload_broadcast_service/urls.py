@@ -14,6 +14,8 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls')
 """
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 
@@ -22,14 +24,17 @@ from apps.upload.models import Artifact
 from apps.upload.repository.artifact_repository import ArtifactRepository
 from apps.upload.service.artifact_service import ArtifactService
 
-# init
+# Application config
 artifact_repo = ArtifactRepository(Artifact.objects)
 artifact_service = ArtifactService(artifact_repo)
 artifact_view = views.ArtifactAPIView.as_view(artifact_service=artifact_service)
 
 urlpatterns = [
+    path('', artifact_view),
     path('artifact', artifact_view),
     path('artifact/<int:pk>', artifact_view),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('admin/', admin.site.urls),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

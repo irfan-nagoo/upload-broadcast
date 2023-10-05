@@ -11,7 +11,7 @@ class ArtifactAPIView(APIView):
     def __int__(self, artifact_service):
         self.artifact_service = artifact_service
 
-    def post(self, request, pk):
+    def post(self, request):
         return self.artifact_service.save_artifact(request.data)
 
     def get(self, request, pk=1):

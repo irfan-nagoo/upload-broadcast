@@ -150,3 +150,7 @@ LOGGING = {
         },
     },
 }
+
+MEDIA_ROOT = '/var/www/upload-broadcast/media/'
+
+MEDIA_URL = 'media/'
