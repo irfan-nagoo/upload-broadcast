@@ -1,8 +1,12 @@
-import datetime
+from http import HTTPStatus
 
-from django.utils import timezone
 from rest_framework import serializers
+from rest_framework.exceptions import ValidationError
 
+from apps.common.constants.artifact_type import ArtifactType
+from apps.common.constants.category_type import CategoryType
+from apps.common.constants.messaging_constants import INVALID_VALUE_MSG
+from apps.common.constants.status_type import StatusType
 from apps.upload.models import Artifact
 
 
@@ -13,15 +17,34 @@ class ArtifactSerializer(serializers.ModelSerializer):
     participants = serializers.CharField(max_length=500, required=False)
     artifact_category = serializers.CharField(max_length=50, required=False)
     artifact_type = serializers.CharField(max_length=50, required=False)
+    status = serializers.CharField(max_length=20, required=False)
     image = serializers.ImageField(required=False)
     video = serializers.FileField(required=False)
     tags = serializers.CharField(max_length=100, required=False)
-    published_date = serializers.DateField(default=datetime.date.today())
-    created_at = serializers.DateTimeField(default=timezone.now())
-    created_by = serializers.CharField(max_length=100, default='System')
-    modified_at = serializers.DateTimeField(default=timezone.now())
-    modified_by = serializers.CharField(max_length=100, default='System')
+    published_date = serializers.DateField(required=False)
+    created_at = serializers.DateTimeField(required=False)
+    created_by = serializers.CharField(max_length=100, required=False)
+    modified_at = serializers.DateTimeField(required=False)
+    modified_by = serializers.CharField(max_length=100, required=False)
 
     class Meta:
         model = Artifact
         fields = '__all__'
+
+    @staticmethod
+    def validate_status(value):
+        if not StatusType.__contains__(value):
+            raise ValidationError(INVALID_VALUE_MSG % value, HTTPStatus.BAD_REQUEST.phrase)
+        return value
+
+    @staticmethod
+    def validate_artifact_category(value):
+        if not CategoryType.__contains__(value):
+            raise ValidationError(INVALID_VALUE_MSG % value, HTTPStatus.BAD_REQUEST.phrase)
+        return value
+
+    @staticmethod
+    def validate_artifact_type(value):
+        if not ArtifactType.__contains__(value):
+            raise ValidationError(INVALID_VALUE_MSG % value, HTTPStatus.BAD_REQUEST.phrase)
+        return value

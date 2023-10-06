@@ -80,8 +80,12 @@ WSGI_APPLICATION = 'upload_broadcast_service.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'media',
+        "USER": "postgres",
+        "PASSWORD": "postgres",
+        "HOST": "127.0.0.1",
+        "PORT": "5432",
         'ATOMIC_REQUESTS': True,
     }
 }
@@ -127,6 +131,7 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# Logging config
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -151,6 +156,11 @@ LOGGING = {
     },
 }
 
+# Media (Image, Audio/Video) config
 MEDIA_ROOT = '/var/www/upload-broadcast/media/'
-
 MEDIA_URL = 'media/'
+
+# Solr config
+SOLR_BASE_URL = 'http://localhost:8983/solr/'
+SOLR_CORE = 'media'
+

@@ -5,6 +5,7 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 
 from apps.common.constants.messaging_constants import PROCESSED_SUCCESS_MSG, VALIDATION_FAILED_MSG
+from apps.common.constants.status_type import StatusType
 from apps.upload.repository.artifact_repository import ArtifactRepository
 from apps.upload.response.artifact_response import ArtifactResponse
 from apps.upload.serializers import ArtifactSerializer
@@ -49,7 +50,9 @@ class ArtifactService:
     def delete_artifact(self, pk):
         logger.info("Starting delete_artifact with id[%d]", pk)
         artifact = self.artifact_repo.get_artifact(pk)
-        self.artifact_repo.delete_artifact(artifact)
+        artifact.status = StatusType.DELETED.value
+        # soft delete only
+        self.artifact_repo.update_artifact(artifact)
         return self.build_success_response(HTTPStatus.OK.phrase, PROCESSED_SUCCESS_MSG)
 
     @staticmethod
