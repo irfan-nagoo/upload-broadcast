@@ -17,23 +17,37 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path
 
-from apps.upload import views
+from apps.broadcast.service.artifact_search_service import ArtifactSearchService
+from apps.broadcast.views import ArtifactSearchAPIView
+from apps.common.search.solr_search_artifact import SolrSearchArtifact
 from apps.upload.models import Artifact
 from apps.upload.repository.artifact_repository import ArtifactRepository
 from apps.upload.service.artifact_service import ArtifactService
+from apps.upload.views import ArtifactAPIView
 
-# Application config
+# Upload config
 artifact_repo = ArtifactRepository(Artifact.objects)
 artifact_service = ArtifactService(artifact_repo)
-artifact_view = views.ArtifactAPIView.as_view(artifact_service=artifact_service)
+artifact_view = ArtifactAPIView.as_view(artifact_service=artifact_service)
+
+# Broadcast config
+search_artifact = SolrSearchArtifact()
+# create index if required
+search_artifact.create_index()
+search_service = ArtifactSearchService(search_artifact)
+artifact_search_view_list = ArtifactSearchAPIView.as_view(artifact_search_service=search_service,
+                                                          actions={'get': 'list'})
+artifact_search_view_search = ArtifactSearchAPIView.as_view(artifact_search_service=search_service,
+                                                            actions={'get': 'search'})
 
 urlpatterns = [
     path('', artifact_view),
     path('artifact', artifact_view),
     path('artifact/<int:pk>', artifact_view),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('artifact-search/list', artifact_search_view_list),
+    path('artifact-search/search', artifact_search_view_search),
     path('admin/', admin.site.urls),
 ]
 

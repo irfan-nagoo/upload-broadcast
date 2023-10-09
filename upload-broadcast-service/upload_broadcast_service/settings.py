@@ -161,6 +161,5 @@ MEDIA_ROOT = '/var/www/upload-broadcast/media/'
 MEDIA_URL = 'media/'
 
 # Solr config
-SOLR_BASE_URL = 'http://localhost:8983/solr/'
+SOLR_BASE_V2_URL = 'http://172.18.192.201:8983/api/cores'
 SOLR_CORE = 'media'
-

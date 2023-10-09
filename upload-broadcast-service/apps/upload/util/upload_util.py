@@ -9,8 +9,8 @@ def artifact_to_artifact_search(artifact):
     artifact_search.artifact_category = artifact.artifact_category
     artifact_search.artifact_type = artifact.artifact_type
     artifact_search.status = artifact.status
-    artifact_search.image = artifact.image
-    artifact_search.video = artifact.video
+    artifact_search.image = artifact.image.url
+    artifact_search.video = artifact.video.url
     artifact_search.tags = artifact.tags
     artifact_search.published_date = artifact.published_date
     artifact_search.modified_at = artifact.modified_at
