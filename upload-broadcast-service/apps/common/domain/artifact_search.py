@@ -23,16 +23,20 @@ class ArtifactSearch:
     @staticmethod
     def from_json(doc):
         artifact = ArtifactSearch(doc.get('id'))
-        artifact.title = doc.get('title')
-        artifact.description = doc.get('description')
-        artifact.participants = doc.get('participants')
-        artifact.artifact_category = doc.get('artifact_category')
-        artifact.artifact_type = doc.get('artifact_type')
-        artifact.status = doc.get('status')
-        artifact.image = doc.get('image')
-        artifact.video = doc.get('video')
-        artifact.tags = doc.get('tags')
-        artifact.published_date = doc.get('published_date')
-        artifact.modified_at = doc.get('modified_at')
-        artifact.modified_by = doc.get('modified_by')
+        artifact.title = ArtifactSearch.get_clean_value(doc, 'title')
+        artifact.description = ArtifactSearch.get_clean_value(doc, 'description')
+        artifact.participants = ArtifactSearch.get_clean_value(doc, 'participants')
+        artifact.artifact_category = ArtifactSearch.get_clean_value(doc, 'artifact_category')
+        artifact.artifact_type = ArtifactSearch.get_clean_value(doc, 'artifact_type')
+        artifact.status = ArtifactSearch.get_clean_value(doc, 'status')
+        artifact.image = ArtifactSearch.get_clean_value(doc, 'image')
+        artifact.video = ArtifactSearch.get_clean_value(doc, 'video')
+        artifact.tags = ArtifactSearch.get_clean_value(doc, 'tags')
+        artifact.published_date = ArtifactSearch.get_clean_value(doc, 'published_date')
+        artifact.modified_at = ArtifactSearch.get_clean_value(doc, 'modified_at')
+        artifact.modified_by = ArtifactSearch.get_clean_value(doc, 'modified_by')
         return artifact
+
+    @staticmethod
+    def get_clean_value(doc, field: str) -> str:
+        return ''.join(doc.get(field, ''))

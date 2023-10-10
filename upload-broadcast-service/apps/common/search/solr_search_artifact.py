@@ -28,10 +28,11 @@ class SolrSearchArtifact(SearchArtifact):
         logger.info("Document delete status: %d", response.status)
 
     def list_artifact(self, page_no: int = 0, page_size: int = 10):
+        start = page_no * page_size
         response = request(HTTPMethod.GET,
                            settings.SOLR_BASE_V2_URL + '/' + settings.SOLR_CORE + '/select'
                            + '?q=*:*'
-                           + '&start=' + page_no.__str__()
+                           + '&start=' + start.__str__()
                            + '&rows=' + page_size.__str__()
                            + '&wt=json')
 
@@ -42,10 +43,11 @@ class SolrSearchArtifact(SearchArtifact):
         return result
 
     def search_artifact(self, query: str, page_no: int = 0, page_size: int = 10):
+        start = page_no * page_size
         response = request(HTTPMethod.GET,
                            settings.SOLR_BASE_V2_URL + '/' + settings.SOLR_CORE + '/select'
-                           + '?q=title:' + query + ' description:' + query
-                           + '&start=' + page_no.__str__()
+                           + '?q=title:*' + query + '* description:*' + query + '*'
+                           + '&start=' + start.__str__()
                            + '&rows=' + page_size.__str__()
                            + '&wt=json')
 
@@ -95,6 +97,7 @@ class SolrSearchArtifact(SearchArtifact):
     def update_artifact_doc(artifact: ArtifactSearch):
         return request(HTTPMethod.POST,
                        settings.SOLR_BASE_V2_URL + '/' + settings.SOLR_CORE + '/update/json'
-                       + '?softCommit=true',
-                       body=json.dumps(artifact.__dict__, default=str),
+                       + '?f=/**'
+                       + '&softCommit=true',
+                       body=json.dumps(artifact, default=str),
                        headers={'Content-type': 'application/json'})

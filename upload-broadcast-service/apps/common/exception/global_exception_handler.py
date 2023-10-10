@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 def global_exception_handler(exc, context):
     error_id = uuid.uuid4().__str__()
-    logger.error("Error [error_id=%s] [msg=%s]", error_id, exc)
+    logger.exception("Error [error_id=%s] [msg=%s]", error_id, exc)
     if isinstance(exc, ObjectDoesNotExist):
         return Response(status=HTTP_404_NOT_FOUND,
                         data=ErrorResponse(HTTPStatus.NOT_FOUND.phrase, exc.__str__(), error_id).__dict__)

@@ -163,3 +163,9 @@ MEDIA_URL = 'media/'
 # Solr config
 SOLR_BASE_V2_URL = 'http://172.18.192.201:8983/api/cores'
 SOLR_CORE = 'media'
+
+# Kafka config
+KAFKA_BOOTSTRAP_SERVER = 'localhost:9092'
+KAFKA_TOPIC = 'media'
+KAFKA_GROUP = 'media_group'
+KAFKA_OFFSET_RESET = 'earliest'
