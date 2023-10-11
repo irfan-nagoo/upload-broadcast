@@ -29,14 +29,15 @@ This application exposes following REST API:
 1. Upload:
     - **Artifact Upload:** This application exposes endpoints to add/get/modify/delete media content. The add/modify/delete APIs also update the content in the underlying search technology.
 2. Broadcast:
-    - **Artifact List:** This application provides APIs to list the media content with latest content at the top excluding deleted records. This APIs could generally be used in the home page of the frontend application. 
-    - **Artifact Search:** This application provides ability to search content based on title, description etc.
+    - **Artifact List:** This application provides paginated and sorted APIs to list the media content with latest content at the top excluding deleted records. This API could generally be used in the home page of the frontend application. 
+    - **Artifact Search:** This application provides paginated API to search content based on title, description etc.
 3. Media content:
     - **Video/Image Uri:** These are static endpoints which get generated while video/image upload, and are unique for each media artifact. These URIs need to be prefixed with http://host:port  of broadcast-upload-service to access the media content.
 
-The PostGres database script is also included in this project. This application can work with any relational database.
- 
+
 ### Extendibility
+
+The PostGres database script is also included in this project. This application can work with any relational database. In additon to this, this application is configured to work with Apache Solr for searching and Apaache Kafka for messaging. However, these technologies could be replaced with other implementations as well with minimum code changes.
 
 This project could be extended with features like user management (with User table), customized search APIs based on category, type etc., tables for tags, types, websocket notification, subscriptions, plans and payment info (if required) etc. with database tables as per requirement.
 
@@ -55,6 +56,6 @@ The default configuration for this application should work on local. This applic
 **Tech stack:** Python 3, Django 4, Django rest, urllib3, confluent-kafka, Apache Solr, Apache Kafka, PostGres
 
 
-The APIs for this application could be accessed using any REST client.
+Here is the Swagger UI enpoint for various REST APIs: http://localhost:8080/swagger-ui
 
  
