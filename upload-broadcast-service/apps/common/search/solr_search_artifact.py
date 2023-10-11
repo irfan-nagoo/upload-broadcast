@@ -32,9 +32,10 @@ class SolrSearchArtifact(SearchArtifact):
         response = request(HTTPMethod.GET,
                            settings.SOLR_BASE_V2_URL + '/' + settings.SOLR_CORE + '/select'
                            + '?q=*:*'
+                           + '&fq=-status:Deleted'
                            + '&start=' + start.__str__()
                            + '&rows=' + page_size.__str__()
-                           + '&wt=json')
+                           + '&sort=modified_at desc')
 
         logger.info("Number of documents found: %d", response.json()['response']['numFound'])
         result = []
@@ -47,9 +48,9 @@ class SolrSearchArtifact(SearchArtifact):
         response = request(HTTPMethod.GET,
                            settings.SOLR_BASE_V2_URL + '/' + settings.SOLR_CORE + '/select'
                            + '?q=title:*' + query + '* description:*' + query + '*'
+                           + '&fq=-status:Deleted'
                            + '&start=' + start.__str__()
-                           + '&rows=' + page_size.__str__()
-                           + '&wt=json')
+                           + '&rows=' + page_size.__str__())
 
         logger.info("Number of documents found: %d", response.json()['response']['numFound'])
         result = []
